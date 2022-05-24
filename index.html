@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦊 Fox Finder</title>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+    <div id="app">
+        <section class="section">
+            <div class="container column is-5">
+                <div class="has-text-centered">
+                    <h1 class="title is-1 has-text-weight-bold is-underlined">
+                        Cute Foxes
+                    </h1>
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image">
+                                <img :src="image" alt="Image">
+                            </figure>
+                        </div>
+                    </div>
+                    <br>
+                    <button v-on:click="getData" class="button is-link is-fullwidth" id="reloadBtn">Reload 🔄</button>
+                </div>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="has-text-left">
+                Made with Love by <a href="https://foxy4096.is-a.dev">@foxy4096</a>
+                <br>
+                <a href="https://randomfox.ca/"><img src="https://randomfox.ca/favicon.ico?v=1" alt="logo" width="20">
+                    Random Fox</a>
+            </div>
+        </footer>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                image: '' || 'https://c.tenor.com/8KWBGNcD-zAAAAAC/tenor.gif'
+            },
+            mounted: function () {
+                this.getData();
+            },
+            methods: {
+                getData: async function () {
+                    this.image = '' || 'https://c.tenor.com/8KWBGNcD-zAAAAAC/tenor.gif';
+                    const reloadBtn = document.querySelector('#reloadBtn');
+                    await reloadBtn.classList.add('is-loading');
+                    fetch('https://randomfox.ca/floof/').then(
+                        response => response.json())
+                        .then(data => {
+                            this.image = data.image;
+                            reloadBtn.classList.remove('is-loading');
+                        });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
